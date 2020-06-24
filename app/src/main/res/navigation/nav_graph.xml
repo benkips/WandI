@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dashboard">
+
+    <fragment
+        android:id="@+id/dashboard"
+        android:name="com.ekarantechnologies.wandi.fragments.Dashboard"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboard_to_playmusic"
+            app:destination="@id/playmusic" />
+        <action
+            android:id="@+id/action_dashboard_to_musicfromartist"
+            app:destination="@id/musicfromartist" />
+        <action
+            android:id="@+id/action_dashboard_to_musicfromfolder"
+            app:destination="@id/musicfromfolder" />
+    </fragment>
+    <fragment
+        android:id="@+id/filez"
+        android:name="com.ekarantechnologies.wandi.fragments.filez"
+        android:label="fragment_filez"
+        tools:layout="@layout/fragment_filez" />
+    <fragment
+        android:id="@+id/taskz"
+        android:name="com.ekarantechnologies.wandi.fragments.Taskz"
+        android:label="fragment_taskz"
+        tools:layout="@layout/fragment_taskz" />
+    <fragment
+        android:id="@+id/playmusic"
+        android:name="com.ekarantechnologies.wandi.fragments.playmusic"
+        android:label="fragment_playmusic"
+        tools:layout="@layout/fragment_playmusic" />
+    <fragment
+        android:id="@+id/musicfromartist"
+        android:name="com.ekarantechnologies.wandi.subfragments.Musicfromartist"
+        android:label="fragment_musicfromartist"
+        tools:layout="@layout/fragment_musicfromartist" >
+        <action
+            android:id="@+id/action_musicfromartist_to_playmusic"
+            app:destination="@id/playmusic" />
+    </fragment>
+    <fragment
+        android:id="@+id/musicfromfolder"
+        android:name="com.ekarantechnologies.wandi.subfragments.Musicfromfolder"
+        android:label="fragment_musicfromfolder"
+        tools:layout="@layout/fragment_musicfromfolder" >
+        <action
+            android:id="@+id/action_musicfromfolder_to_playmusic"
+            app:destination="@id/playmusic" />
+    </fragment>
+</navigation>
