@@ -1,12 +1,17 @@
 package com.ekarantechnologies.wandi;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ekarantechnologies.wandi.adapters.Introviewpageadapter;
 import com.ekarantechnologies.wandi.databinding.ActivityOnboardBinding;
@@ -29,7 +34,7 @@ public class Onboard extends AppCompatActivity {
         binding=ActivityOnboardBinding.inflate(getLayoutInflater());
         View view=binding.getRoot();
         setContentView(view);
-
+        storageperm();
         preferences=getSharedPreferences("logininfo.conf",MODE_PRIVATE);
         String opener=preferences.getString("keyx","");
 
@@ -106,5 +111,37 @@ public class Onboard extends AppCompatActivity {
         startActivity(new Intent(Onboard.this,MainActivity.class));
         Onboard.this.finish();
     }
+    private void storageperm() {
+        String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+        int grant = ContextCompat.checkSelfPermission(Onboard.this, permission);
+        if (grant != PackageManager.PERMISSION_GRANTED) {
+            String[] permission_list = new String[1];
+            permission_list[0] = permission;
+            ActivityCompat.requestPermissions(Onboard.this, permission_list, 1);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    storageperm();
+                    Toast.makeText(Onboard.this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
 }

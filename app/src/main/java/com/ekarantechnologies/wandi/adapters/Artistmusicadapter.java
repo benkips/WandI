@@ -59,11 +59,15 @@ public class Artistmusicadapter extends PagedListAdapter<Mydatamusicartist, Recy
                 String streams = (Integer.parseInt(mydata.streams) <= 1) ? " stream" : "streams";
                 Holder.binding.subtitle.setText(mydata.streams + streams);
                 Holder.binding.ivim.setImageResource(R.drawable.musicicon);
+                Holder.binding.size.setVisibility(View.VISIBLE);
+                Holder.binding.size.setText(String.valueOf(mydata.size)+" mb");
                 Holder.binding.cv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Bundle bundle = new Bundle();
                         bundle.putString("music", mydata.song);
+                        bundle.putInt("id",mydata.id);
+                        bundle.putString("table","artists");
                         Navigation.findNavController(view).navigate(R.id.action_musicfromartist_to_playmusic, bundle);
 
                         //((MainActivity) context).mydownload("http://worshipandinstrumentals.ekarantechnologies.com/songs/" +mydata.song);

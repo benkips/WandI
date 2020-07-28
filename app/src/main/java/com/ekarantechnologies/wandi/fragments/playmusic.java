@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 
 import com.ekarantechnologies.wandi.MainActivity;
+import com.ekarantechnologies.wandi.Network.ApiClient;
+import com.ekarantechnologies.wandi.Network.ApiInterface;
 import com.ekarantechnologies.wandi.databinding.FragmentPlaymusicBinding;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -36,8 +38,18 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.HttpException;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,6 +62,7 @@ public class playmusic extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static ApiInterface apiInterface;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -62,7 +75,9 @@ public class playmusic extends Fragment {
     private static final String TAG = "playmusic";
     private SimpleExoPlayer exoPlayer;
 
-
+    private String music;
+    private Integer id;
+    private String table;
 
     public playmusic() {
         // Required empty public constructor
@@ -106,7 +121,9 @@ public class playmusic extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String music = getArguments().getString("music");
+        music = getArguments().getString("music");
+        id = getArguments().getInt("id");
+        table = getArguments().getString("table");
 
         String url = "https://worshipandinstrumentals.ekarantechnologies.com/songs/" + music;
 
@@ -118,8 +135,8 @@ public class playmusic extends Fragment {
             }
         });
 
-
-        Toast.makeText(getContext(), music, Toast.LENGTH_SHORT).show();
+        updatemusic();
+        //Toast.makeText(getContext(), music, Toast.LENGTH_SHORT).show();
 
         //String url = "https://worshipandinstrumentals.ekarantechnologies.com/songs/" + music;
 
@@ -206,6 +223,7 @@ public class playmusic extends Fragment {
             @Override
             public void onClick(View view) {
                 setPlayPause(!isPlaying);
+
             }
         });
     }
@@ -308,5 +326,41 @@ public class playmusic extends Fragment {
         exoPlayer=null;
 
     }
+    public void updatemusic() {
 
+        Map<String, String> fields = new HashMap<>();
+        fields.put("id", String.valueOf(id));
+        fields.put("table", table);
+
+        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<ResponseBody> call =apiInterface.updateplaystream(fields);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    String k=response.body().string();
+                    //Toast.makeText(getContext(), k, Toast.LENGTH_SHORT).show();
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (t instanceof HttpException) {
+                    // We had non-2XX http error
+                    Toast.makeText(getContext(),"Something  went wrong please try again later ",Toast.LENGTH_SHORT).show();;
+                } else if (t instanceof IOException) {
+                    // A network or conversion error happened
+                    Toast.makeText(getContext(),"Check your internet connection",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(),"Something  went wrong please try again later ",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 }

@@ -68,47 +68,16 @@ public class MainActivity extends AppCompatActivity implements FetchListener {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        storageperm();
+
 //       setContentView(R.layout.activity_main);
 //        BottomNavigationView bottomNavigationView=findViewById(R.id.Botomnavigationview);
         NavController navController = Navigation.findNavController(this, R.id.fragment);
         NavigationUI.setupWithNavController(binding.Botomnavigationview, navController);
     }
 
-    private void storageperm() {
-        String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-        int grant = ContextCompat.checkSelfPermission(MainActivity.this, permission);
-        if (grant != PackageManager.PERMISSION_GRANTED) {
-            String[] permission_list = new String[1];
-            permission_list[0] = permission;
-            ActivityCompat.requestPermissions(MainActivity.this, permission_list, 1);
-        }
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    storageperm();
-                    Toast.makeText(MainActivity.this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
-                }
-                return;
-            }
 
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-    }
 
     @Override
     public void onAdded(@NotNull Download download) {

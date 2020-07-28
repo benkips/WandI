@@ -71,7 +71,7 @@ public class Folderadapter extends PagedListAdapter<Mydatafolders, RecyclerView.
                 Toast.makeText(context, "data is null", Toast.LENGTH_SHORT).show();
             }
         }else{
-            Artistadpter.NetworkStateItemViewHolder Holder = (Artistadpter.NetworkStateItemViewHolder) holder;
+           NetworkStateItemViewHolder Holder = (NetworkStateItemViewHolder) holder;
 
             if (networkState != null && networkState.getStatus() == NetworkState.Status.RUNNING) {
                 Holder.binding.progressBar.setVisibility(View.VISIBLE);

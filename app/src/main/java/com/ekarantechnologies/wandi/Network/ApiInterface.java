@@ -10,9 +10,14 @@ import com.ekarantechnologies.wandi.models.folders;
 import com.ekarantechnologies.wandi.models.music;
 
 import java.util.List;
+import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 
@@ -31,7 +36,8 @@ public interface ApiInterface {
 
     @GET("getfoldermusic.php")
     Call<List<Foldermusic>> getmusicfromfolder(@Query("pageno") int page, @Query("itemcount") int items, @Query("search") String query, @Query("musicid")int id);
-  /*  @FormUrlEncoded
-    @POST("login.php")
-     Call<ResponseBody> performuserLogin(@FieldMap Map<String, String> fields);*/
+
+    @FormUrlEncoded
+    @POST("updatemusic.php")
+     Call<ResponseBody> updateplaystream(@FieldMap Map<String, String> fields);
 }

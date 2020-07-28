@@ -7,6 +7,8 @@ public class Mydatamusic {
     public String song;
     public String streams;
     public int time;
+    public String size;
+
 
     @Override
     public boolean equals(Object o) {
