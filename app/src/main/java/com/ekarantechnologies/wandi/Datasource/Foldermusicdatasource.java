@@ -102,7 +102,7 @@ public class Foldermusicdatasource extends PageKeyedDataSource<Integer, Mydatamu
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Mydatamusicfolder> callback) {
         networkState.postValue(NetworkState.LOADING);
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<List<Foldermusic>> call = apiInterface.getmusicfromfolder(firstpage, pagesize, dataz, mid);
+        Call<List<Foldermusic>> call = apiInterface.getmusicfromfolder(params.key, pagesize, dataz, mid);
         call.enqueue(new Callback<List<Foldermusic>>() {
             @Override
             public void onResponse(Call<List<Foldermusic>> call, Response<List<Foldermusic>> response) {

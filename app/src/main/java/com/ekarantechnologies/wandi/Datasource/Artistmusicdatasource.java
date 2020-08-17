@@ -101,11 +101,11 @@ public class Artistmusicdatasource extends PageKeyedDataSource<Integer, Mydatamu
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Mydatamusicartist> callback) {
         networkState.postValue(NetworkState.LOADING);
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<List<Artistmusic>> call = apiInterface.getmusicfromartist(firstpage, pagesize, dataz,mid);
+        Call<List<Artistmusic>> call = apiInterface.getmusicfromartist(params.key, pagesize, dataz,mid);
         call.enqueue(new Callback<List<Artistmusic>>() {
             @Override
             public void onResponse(Call<List<Artistmusic>> call, Response<List<Artistmusic>> response) {
-                Log.i(TAG, "Loading Range " + params.key + " Count " + params.requestedLoadSize);
+                Log.i(TAG, "Loading Range-artistmusic " + params.key + " Count " + params.requestedLoadSize);
                 if (response.body() != null) {
                     Integer key = (response.body().get(1).total >= params.key) ? params.key + 1 : null;
                     if(key!=null) callback.onResult(response.body().get(2).mydata, key);

@@ -99,7 +99,7 @@ public class Artistdatasource extends PageKeyedDataSource<Integer, Mydataartist>
         networkState.postValue(NetworkState.LOADING);
 
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<List<artist>> call = apiInterface.getartists(firstpage, pagesize, dataz);
+        Call<List<artist>> call = apiInterface.getartists(params.key, pagesize, dataz);
         call.enqueue(new Callback<List<artist>>() {
             @Override
             public void onResponse(Call<List<artist>> call, Response<List<artist>> response) {

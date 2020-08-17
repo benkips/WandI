@@ -97,7 +97,7 @@ public class Folderdatasource extends PageKeyedDataSource<Integer, Mydatafolders
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Mydatafolders> callback) {
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<List<folders>> call = apiInterface.getfolders(firstpage, pagesize, dataz);
+        Call<List<folders>> call = apiInterface.getfolders(params.key, pagesize, dataz);
         call.enqueue(new Callback<List<folders>>() {
             @Override
             public void onResponse(Call<List<folders>> call, Response<List<folders>> response) {
